@@ -103,10 +103,15 @@ const productNavs: Record<ProductKey, NavItem[]> = {
   ],
   engineering: [
     { label: 'Home', href: platformUrl('engineering') },
-    { label: 'Control Systems', href: '/engineering/control' },
-    { label: 'Robotics', href: '/engineering/robotics' },
-    { label: 'Instrumentation', href: '/engineering/instrumentation' },
-    { label: 'Networking', href: '/engineering/networking' },
+    {
+      label: 'Services', href: '/engineering/services',
+      children: [
+        { label: 'Control Systems', href: '/engineering/control', description: 'Control design, PLC/SCADA, modelling and automation' },
+        { label: 'Robotics & Automation', href: '/engineering/robotics', description: 'Robotics, embedded intelligence and motion systems' },
+        { label: 'Instrumentation', href: '/engineering/instrumentation', description: 'Sensors, measurement, DAQ, calibration and IoT monitoring' },
+        { label: 'Networking & Infrastructure', href: '/engineering/networking', description: 'Network design, deployment, security and maintenance' },
+      ],
+    },
     { label: 'Request Project', href: '/engineering/quote' },
     { label: 'Project Dashboard', href: '/engineering/dashboard' },
     { label: 'Operations', href: '/engineering/operations' },

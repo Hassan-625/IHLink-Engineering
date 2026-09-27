@@ -121,7 +121,7 @@ export function EngineeringHome() {
             </div>
           </div>
         </section>
-        <ExperiencePhoto src="/images/robotics-engineering.jpg" alt="A programmable robot representing automation and intelligent control engineering" eyebrow="Robotics and intelligent control" title="From calculations and prototypes to working automated systems" text="Our engineering work is grounded in control, robotics, instrumentation, testing and real operating environments—not only diagrams and presentations." accentClass="text-amber-700" />
+        <ExperiencePhoto src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1600&q=85" alt="A programmable robot representing automation and intelligent control engineering" eyebrow="Robotics and intelligent control" title="From calculations and prototypes to working automated systems" text="Our engineering work is grounded in control, robotics, instrumentation, testing and real operating environments—not only diagrams and presentations." accentClass="text-amber-700" />
         <section className="max-w-[1280px] mx-auto px-6 lg:px-10 py-20">
           <div className="max-w-2xl">
             <p className="text-amber-700 font-bold">Engineering capabilities</p>

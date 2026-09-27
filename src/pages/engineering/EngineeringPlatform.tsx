@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { ExperiencePhoto } from "@/components/ExperiencePhoto";
 import { ManagedContentSections } from "@/components/ManagedContentSections";
 import { useManagedHero } from "@/hooks/useManagedHero";
+import { IH_LINK_LOGO } from "@/assets/ihlinkLogo";
 import {
   Cpu,
   Bot,
@@ -103,7 +104,7 @@ export function EngineeringHome() {
                 </Link>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div><div className="mb-4 flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3"><img src={IH_LINK_LOGO} alt="IHLink" className="h-11 w-11 rounded-xl bg-white object-contain p-1"/><div><b className="block">IHLink Engineering</b><span className="text-xs text-amber-100/70">Control • Robotics • Instrumentation</span></div></div><div className="grid grid-cols-2 gap-4">
               {disciplines.map((d) => (
                 <Link to={`/engineering/${d.key}`} key={d.key}>
                   <Card
@@ -118,7 +119,7 @@ export function EngineeringHome() {
                   </Card>
                 </Link>
               ))}
-            </div>
+            </div></div>
           </div>
         </section>
         <ExperiencePhoto src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1600&q=85" alt="A programmable robot representing automation and intelligent control engineering" eyebrow="Robotics and intelligent control" title="From calculations and prototypes to working automated systems" text="Our engineering work is grounded in control, robotics, instrumentation, testing and real operating environments—not only diagrams and presentations." accentClass="text-amber-700" />

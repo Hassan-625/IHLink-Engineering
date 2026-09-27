@@ -103,6 +103,7 @@ const productNavs: Record<ProductKey, NavItem[]> = {
   ],
   engineering: [
     { label: 'Home', href: platformUrl('engineering') },
+    { label: 'Dashboard', href: '/engineering/dashboard' },
     {
       label: 'Services', href: '/engineering/services',
       children: [
@@ -113,9 +114,9 @@ const productNavs: Record<ProductKey, NavItem[]> = {
       ],
     },
     { label: 'Request Project', href: '/engineering/quote' },
-    { label: 'Project Dashboard', href: '/engineering/dashboard' },
     { label: 'Operations', href: '/engineering/operations' },
-    { label: 'Support', href: '/engineering/support' },
+    { label: 'Payments', href: '/engineering/payments' },
+    { label: 'Get in Touch', href: '/engineering/get-in-touch' },
   ],
 };
 

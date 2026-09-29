@@ -181,6 +181,22 @@ export function EngineeringPortfolio() {
   </>;
 }
 
+export function EngineeringContact() {
+  return <>
+    <Header product="engineering" />
+    <main className="mx-auto max-w-[950px] px-6 py-20">
+      <p className="font-bold text-amber-700">IHLink Engineering</p>
+      <h1 className="mt-2 text-4xl font-black">Get in touch</h1>
+      <p className="mt-4 max-w-2xl text-muted">Tell us what you are building or the engineering problem you need solved. The project request form records your requirements for a response from the team.</p>
+      <div className="mt-9 grid gap-5 md:grid-cols-2">
+        <Card><h2 className="text-xl font-bold">Start a project</h2><p className="mt-2 text-sm text-muted">Describe the system, site, timeframe and support you need.</p><Link to="/engineering/quote" className="mt-5 inline-block"><Button>Request a quote</Button></Link></Card>
+        <Card><h2 className="text-xl font-bold">Existing project support</h2><p className="mt-2 text-sm text-muted">Sign in to see your projects and contact the delivery team through your support workspace.</p><Link to="/engineering/support" className="mt-5 inline-block"><Button variant="secondary">Open support</Button></Link></Card>
+      </div>
+    </main>
+    <Footer product="engineering" />
+  </>;
+}
+
 export function EngineeringService({ type }: { type: string }) {
   const d = disciplines.find((x) => x.key === type) || disciplines[0];
   return (

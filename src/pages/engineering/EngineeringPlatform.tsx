@@ -1,3 +1,4 @@
+import {ServiceGuide} from '@/components/ServiceGuide';
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -104,7 +105,7 @@ export function EngineeringHome() {
                 </Link>
               </div>
             </div>
-            <div><figure className="mb-6"><div role="img" aria-label="IHLink Engineering branded service illustration" className="aspect-[4/3] rounded-2xl bg-no-repeat" style={{backgroundImage:'url(/images/ihlink-service-scene.webp)',backgroundSize:'270% auto',backgroundPosition:'53% 22%'}}/><figcaption className="mt-2 text-xs text-white/60">IHLink service illustration.</figcaption></figure><div className="mb-4 flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3"><img src={IH_LINK_LOGO} alt="IHLink" className="h-11 w-11 rounded-xl bg-white object-contain p-1"/><div><b className="block">IHLink Engineering</b><span className="text-xs text-amber-100/70">Control • Robotics • Instrumentation</span></div></div><div className="grid grid-cols-2 gap-4">
+            <div><figure className="mb-6"><img src="/images/service-scene-clean.webp" alt="IHLink Engineering team service illustration" width="1672" height="941" className="block h-auto w-full rounded-2xl"/><figcaption className="mt-2 text-xs text-white/60">IHLink service illustration.</figcaption></figure><div className="mb-4 flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3"><img src={IH_LINK_LOGO} alt="IHLink" className="h-11 w-11 rounded-xl bg-white object-contain p-1"/><div><b className="block">IHLink Engineering</b><span className="text-xs text-amber-100/70">Control • Robotics • Instrumentation</span></div></div><div className="grid grid-cols-2 gap-4">
               {disciplines.map((d) => (
                 <Link to={`/engineering/${d.key}`} key={d.key}>
                   <Card
@@ -122,7 +123,7 @@ export function EngineeringHome() {
             </div></div>
           </div>
         </section>
-        <ExperiencePhoto src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1600&q=85" alt="A programmable robot representing automation and intelligent control engineering" eyebrow="Robotics and intelligent control" title="From calculations and prototypes to working automated systems" text="Our engineering work is grounded in control, robotics, instrumentation, testing and real operating environments—not only diagrams and presentations." accentClass="text-amber-700" />
+        <ServiceGuide/><ExperiencePhoto src="/images/service-scene-clean.webp" alt="IHLink Engineering team service illustration" eyebrow="Robotics and intelligent control" title="From calculations and prototypes to working automated systems" text="Our engineering work is grounded in control, robotics, instrumentation, testing and real operating environments—not only diagrams and presentations." accentClass="text-amber-700" />
         <section className="max-w-[1280px] mx-auto px-6 lg:px-10 py-20">
           <div className="max-w-2xl">
             <p className="text-amber-700 font-bold">Engineering capabilities</p>

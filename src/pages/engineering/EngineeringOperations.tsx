@@ -6,6 +6,7 @@ import {
   ClipboardList,
   Cpu,
   RadioTower,
+  FileText, Target, ShieldAlert, Receipt, Users, MessagesSquare, RefreshCw, ArrowRight,
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -330,9 +331,9 @@ export function EngineeringDashboardLive() {
             )}
           </div>
         </Card>
-        {!!selected&&<div className="mt-6 grid gap-5 md:grid-cols-2">{[
-          ["Proposals","engineering_proposals"],["Milestones","engineering_milestones"],["Engineering documents","engineering_documents"],["Testing & commissioning","engineering_tests"],["Risk register","engineering_risks"],["Invoices","engineering_invoices"],["Project team","engineering_team_members"],["Project messages","engineering_messages"],["Change requests","engineering_change_requests"]
-        ].map(([title,key])=><Card key={key}><h2 className="font-bold">{title}</h2><div className="mt-3 space-y-2">{(ops[key]||[]).slice(0,5).map(x=><div key={x.id} className="rounded-lg border p-3 text-sm"><b>{x.title||x.proposal_number||x.invoice_number||x.display_name||x.body}</b><p className="text-xs text-muted capitalize">{String(x.status||x.approval_status||x.role_title||"recorded").replaceAll("_"," ")}</p></div>)}{!(ops[key]||[]).length&&<p className="text-sm text-muted">Nothing recorded yet.</p>}</div></Card>)}</div>}
+        {!!selected&&<div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">{[
+          [FileText,"Proposals","engineering_proposals","Commercial and technical proposals for this project."],[Target,"Milestones","engineering_milestones","Project stages, targets and delivery checkpoints."],[ClipboardList,"Engineering documents","engineering_documents","Drawings, reports and controlled project documents."],[Activity,"Testing & commissioning","engineering_tests","Testing, commissioning and verification records."],[ShieldAlert,"Risk register","engineering_risks","Project risks, mitigations and operational concerns."],[Receipt,"Invoices","engineering_invoices","Project invoices and commercial records."],[Users,"Project team","engineering_team_members","Assigned engineers and project responsibilities."],[MessagesSquare,"Project messages","engineering_messages","Project communication and recorded updates."],[RefreshCw,"Change requests","engineering_change_requests","Scope and implementation change requests."]
+        ].map(([I,title,key,description])=>{const Icon=I as typeof Activity;return <Card key={String(key)} className="group shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"><div className="flex items-start justify-between"><div className="grid h-12 w-12 place-items-center rounded-xl bg-slate-950 text-white"><Icon className="h-6 w-6"/></div><span className="rounded-full bg-amber-50 px-3 py-1 text-sm font-black text-amber-800">{(ops[String(key)]||[]).length}</span></div><h2 className="mt-4 font-black">{String(title)}</h2><p className="mt-2 text-sm text-muted">{String(description)}</p><div className="mt-4 space-y-2">{(ops[String(key)]||[]).slice(0,3).map(x=><div key={x.id} className="rounded-lg border p-3 text-sm"><b>{x.title||x.proposal_number||x.invoice_number||x.display_name||x.body}</b><p className="text-xs text-muted capitalize">{String(x.status||x.approval_status||x.role_title||"recorded").replaceAll("_"," ")}</p></div>)}{!(ops[String(key)]||[]).length&&<p className="text-xs text-muted">No records yet.</p>}</div><span className="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-500 px-3 py-2 text-xs font-bold text-slate-950">Project module <ArrowRight className="h-4 w-4"/></span></Card>})}</div>}
       </main>
     </div>
   );

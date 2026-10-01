@@ -322,61 +322,6 @@ export function EngineeringQuote() {
   );
 }
 
-export function EngineeringDashboard() {
-  return (
-    <div className="min-h-screen bg-slate-50">
-      <Header product="engineering" showAnnouncement={false} />
-      <main className="max-w-[1200px] mx-auto px-6 py-10">
-        <p className="text-amber-700 font-bold">Client workspace</p>
-        <h1 className="text-3xl font-black mt-1">Engineering projects</h1>
-        <div className="grid md:grid-cols-4 gap-4 mt-7">
-          {[
-            [ClipboardList, "Active projects", "3"],
-            [Activity, "Open milestones", "8"],
-            [CalendarDays, "Next review", "18 Sep"],
-            [Cpu, "System tests", "92%"],
-          ].map(([I, l, v]) => {
-            const Icon = I as typeof Cpu;
-            return (
-              <Card key={String(l)}>
-                <Icon className="w-5 h-5 text-amber-700" />
-                <p className="text-sm text-muted mt-4">{String(l)}</p>
-                <p className="text-2xl font-black">{String(v)}</p>
-              </Card>
-            );
-          })}
-        </div>
-        <Card className="mt-6">
-          <h2 className="font-bold">Current projects</h2>
-          <div className="divide-y mt-4">
-            {[
-              ["Smart Energy Load Controller", "Prototype testing", "72%"],
-              ["Laboratory DAQ System", "Hardware integration", "48%"],
-              ["Campus Network Upgrade", "Site survey", "20%"],
-            ].map((x) => (
-              <div className="py-5" key={x[0]}>
-                <div className="flex justify-between">
-                  <div>
-                    <p className="font-bold">{x[0]}</p>
-                    <p className="text-sm text-muted">{x[1]}</p>
-                  </div>
-                  <b>{x[2]}</b>
-                </div>
-                <div className="h-2 rounded-full bg-slate-100 mt-3">
-                  <div
-                    className="h-full bg-amber-500 rounded-full"
-                    style={{ width: x[2] }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-      </main>
-    </div>
-  );
-}
-
 export function EngineeringSupport() {
   return (
     <>

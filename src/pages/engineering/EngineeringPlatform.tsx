@@ -253,74 +253,7 @@ export function EngineeringService({ type }: { type: string }) {
   );
 }
 
-export function EngineeringQuote() {
-  return (
-    <>
-      <Header product="engineering" />
-      <main className="min-h-screen bg-amber-50/40 py-14">
-        <div className="max-w-4xl mx-auto px-6">
-          <p className="text-amber-700 font-bold">Project request</p>
-          <h1 className="text-4xl font-black mt-2">
-            Tell us what you want to build
-          </h1>
-          <div className="grid md:grid-cols-3 gap-6 mt-8">
-            <Card className="md:col-span-2">
-              <div className="grid md:grid-cols-2 gap-4">
-                <input
-                  className="border rounded-xl p-3"
-                  placeholder="Full name"
-                />
-                <input
-                  className="border rounded-xl p-3"
-                  placeholder="Email address"
-                />
-                <select className="border rounded-xl p-3 bg-white">
-                  <option>Select engineering area</option>
-                  {disciplines.map((x) => (
-                    <option key={x.key}>{x.title}</option>
-                  ))}
-                </select>
-                <input
-                  className="border rounded-xl p-3"
-                  placeholder="Organisation"
-                />
-              </div>
-              <textarea
-                className="border rounded-xl p-3 w-full mt-4 min-h-36"
-                placeholder="Describe the problem, expected outcome and environment"
-              />
-              <Button
-                themeClass="bg-amber-500 hover:bg-amber-600"
-                className="mt-4"
-              >
-                Submit project brief
-              </Button>
-            </Card>
-            <Card>
-              <Cpu className="w-8 h-8 text-amber-700" />
-              <h2 className="font-bold mt-4">What happens next?</h2>
-              <div className="space-y-4 mt-5 text-sm">
-                {[
-                  "Technical review",
-                  "Discovery call",
-                  "Scope and proposal",
-                  "Project kickoff",
-                ].map((x, i) => (
-                  <p key={x}>
-                    <b>
-                      {i + 1}. {x}
-                    </b>
-                  </p>
-                ))}
-              </div>
-            </Card>
-          </div>
-        </div>
-      </main>
-      <Footer product="engineering" />
-    </>
-  );
-}
+export {EngineeringQuoteLive as EngineeringQuote} from './EngineeringOperations';
 
 export function EngineeringSupport() {
   return (

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   Activity,
   CalendarDays,
@@ -37,10 +37,13 @@ type Project = {
   status: string;
 };
 export function EngineeringQuoteLive() {
+  const [params] = useSearchParams();
+  const requestedDiscipline=params.get("discipline");
+  const initialDiscipline=["control","robotics","instrumentation","networking"].includes(requestedDiscipline||"")?requestedDiscipline!:"control";
   const { user } = useAuth();
   const nav = useNavigate();
   const [f, setF] = useState({
-      discipline: "control",
+      discipline: initialDiscipline,
       organisation: "",
       project_title: "",
       problem_statement: "",
@@ -53,7 +56,7 @@ export function EngineeringQuoteLive() {
   async function submit(e: FormEvent) {
     e.preventDefault();
     if (!user) {
-      nav("/signin?next=/engineering/quote");
+      nav("/signin?next="+encodeURIComponent("/engineering/quote?discipline="+f.discipline));
       return;
     }
     if (!supabase) return;

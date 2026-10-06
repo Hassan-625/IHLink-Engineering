@@ -194,6 +194,7 @@ export function EngineeringDashboardLive() {
     [loading, setLoading] = useState(true),
     [error, setError] = useState(""),
     [selected, setSelected] = useState(""),
+    [responding,setResponding]=useState(""),
     [ops, setOps] = useState<Record<string, OpRow[]>>({});
   const load = useCallback(async () => {
     if (!supabase || !user) return;
@@ -214,13 +215,23 @@ export function EngineeringDashboardLive() {
     setRequests((r.data || []) as Request[]);
     const projectRows=(p.data || []) as Project[]; setProjects(projectRows);
     const pid=selected||projectRows[0]?.id||""; if(pid&&!selected)setSelected(pid);
-    if(pid){const names=["engineering_proposals","engineering_milestones","engineering_documents","engineering_tests","engineering_risks","engineering_invoices","engineering_team_members","engineering_messages","engineering_change_requests"];const rs=await Promise.all(names.map(n=>supabase!.from(n).select("*").eq("project_id",pid).order("created_at",{ascending:false})));const next:Record<string,OpRow[]>={};names.forEach((n,i)=>next[n]=rs[i].data||[]);setOps(next)}
+    if(pid){const names=["engineering_proposals","engineering_milestones","engineering_documents","engineering_tests","engineering_risks","engineering_invoices","engineering_team_members","engineering_messages","engineering_change_requests"];const rs=await Promise.all(names.map(n=>supabase!.from(n).select("*").eq("project_id",pid).order("created_at",{ascending:false})));const next:Record<string,OpRow[]>={};names.forEach((n,i)=>next[n]=rs[i].data||[]);setOps(next);const failed=rs.find(r=>r.error);if(failed?.error){setError(failed.error.message);setLoading(false);return}}
     setError(r.error?.message || p.error?.message || "");
     setLoading(false);
   }, [user, selected]);
   useEffect(() => {
     void load();
   }, [load]);
+  async function respondProposal(id:string,response:string){
+    if(!supabase||responding)return;
+    setResponding(id);setError("");
+    try{
+      const {error:rpcError}=await (supabase as any).rpc('respond_engineering_proposal',{p_proposal:id,p_response:response});
+      if(rpcError){setError(rpcError.message);return;}
+      await load();
+    }catch(e){setError(e instanceof Error?e.message:'Proposal response could not be saved.');}
+    finally{setResponding("");}
+  }
   return (
     <div className="min-h-screen bg-slate-50">
       <Header product="engineering" showAnnouncement={false} />
@@ -333,7 +344,7 @@ export function EngineeringDashboardLive() {
         </Card>
         {!!selected&&<div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">{[
           [FileText,"Proposals","engineering_proposals","Commercial and technical proposals for this project."],[Target,"Milestones","engineering_milestones","Project stages, targets and delivery checkpoints."],[ClipboardList,"Engineering documents","engineering_documents","Drawings, reports and controlled project documents."],[Activity,"Testing & commissioning","engineering_tests","Testing, commissioning and verification records."],[ShieldAlert,"Risk register","engineering_risks","Project risks, mitigations and operational concerns."],[Receipt,"Invoices","engineering_invoices","Project invoices and commercial records."],[Users,"Project team","engineering_team_members","Assigned engineers and project responsibilities."],[MessagesSquare,"Project messages","engineering_messages","Project communication and recorded updates."],[RefreshCw,"Change requests","engineering_change_requests","Scope and implementation change requests."]
-        ].map(([I,title,key,description])=>{const Icon=I as typeof Activity;return <Card key={String(key)} className="group shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"><div className="flex items-start justify-between"><div className="grid h-12 w-12 place-items-center rounded-xl bg-slate-950 text-white"><Icon className="h-6 w-6"/></div><span className="rounded-full bg-amber-50 px-3 py-1 text-sm font-black text-amber-800">{(ops[String(key)]||[]).length}</span></div><h2 className="mt-4 font-black">{String(title)}</h2><p className="mt-2 text-sm text-muted">{String(description)}</p><div className="mt-4 space-y-2">{(ops[String(key)]||[]).slice(0,3).map(x=><div key={x.id} className="rounded-lg border p-3 text-sm"><b>{x.title||x.proposal_number||x.invoice_number||x.display_name||x.body}</b><p className="text-xs text-muted capitalize">{String(x.status||x.approval_status||x.role_title||"recorded").replaceAll("_"," ")}</p></div>)}{!(ops[String(key)]||[]).length&&<p className="text-xs text-muted">No records yet.</p>}</div><span className="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-500 px-3 py-2 text-xs font-bold text-slate-950">Project module <ArrowRight className="h-4 w-4"/></span></Card>})}</div>}
+        ].map(([I,title,key,description])=>{const Icon=I as typeof Activity;return <Card key={String(key)} className="group shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"><div className="flex items-start justify-between"><div className="grid h-12 w-12 place-items-center rounded-xl bg-slate-950 text-white"><Icon className="h-6 w-6"/></div><span className="rounded-full bg-amber-50 px-3 py-1 text-sm font-black text-amber-800">{(ops[String(key)]||[]).length}</span></div><h2 className="mt-4 font-black">{String(title)}</h2><p className="mt-2 text-sm text-muted">{String(description)}</p><div className="mt-4 max-h-96 space-y-2 overflow-auto">{(ops[String(key)]||[]).map(x=><div key={x.id} className="rounded-lg border p-3 text-sm"><b>{x.title||x.proposal_number||x.invoice_number||x.display_name||x.body}</b><p className="text-xs text-muted capitalize">{String(x.status||x.approval_status||x.role_title||"recorded").replaceAll("_"," ")}</p>{String(key)==='engineering_proposals'&&<><p className="mt-2 whitespace-pre-wrap">{x.scope}</p><p className="mt-2">{x.currency||'NGN'} {Number(x.amount||0).toLocaleString()}{x.valid_until?` · Valid until ${x.valid_until}`:''}</p>{x.status==='sent'&&<div className="mt-3 flex flex-wrap gap-2"><Button size="sm" disabled={Boolean(responding)} onClick={()=>void respondProposal(x.id,'accepted')}>Accept & generate invoice</Button><Button size="sm" variant="secondary" disabled={Boolean(responding)} onClick={()=>void respondProposal(x.id,'revision_requested')}>Request revision</Button><Button size="sm" variant="secondary" disabled={Boolean(responding)} onClick={()=>void respondProposal(x.id,'rejected')}>Reject</Button></div>}{x.status==='accepted'&&<Link to="/engineering/payments" className="mt-3 inline-block font-bold text-amber-800">View invoice and payment →</Link>}</>}</div>)}{!(ops[String(key)]||[]).length&&<p className="text-xs text-muted">No records yet.</p>}</div></Card>})}</div>}
       </main>
     </div>
   );

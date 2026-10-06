@@ -237,7 +237,7 @@ export function EngineeringService({ type }: { type: string }) {
               available resources. Our team will define a suitable technical
               approach.
             </p>
-            <Link to="/engineering/quote">
+            <Link to={`/engineering/quote?discipline=${encodeURIComponent(type)}`}>
               <Button
                 themeClass="bg-amber-500 hover:bg-amber-600"
                 className="mt-6"
